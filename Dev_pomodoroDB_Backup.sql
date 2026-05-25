@@ -26,9 +26,11 @@ CREATE TABLE IF NOT EXISTS `dev_log_table` (
   `error_code` varchar(100) DEFAULT NULL,
   `created_datatime` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- 테이블 데이터 dev_pomodoro_db.dev_log_table:~0 rows (대략적) 내보내기
+-- 테이블 데이터 dev_pomodoro_db.dev_log_table:~1 rows (대략적) 내보내기
+INSERT INTO `dev_log_table` (`log_id`, `log_content`, `error_code`, `created_datatime`) VALUES
+	(1, '"3주 차 타이머 엔진 및 MariaDB INSERT 연동 완료! 완벽하게 작동함."', 'NONE', '2026-05-25 17:38:26');
 
 -- 테이블 dev_pomodoro_db.subject_table 구조 내보내기
 CREATE TABLE IF NOT EXISTS `subject_table` (
