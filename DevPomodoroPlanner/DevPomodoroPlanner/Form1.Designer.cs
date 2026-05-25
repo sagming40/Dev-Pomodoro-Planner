@@ -31,6 +31,11 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlCenter = new System.Windows.Forms.Panel();
+            this.lblTimer = new System.Windows.Forms.Label();
+            this.pbProgress = new System.Windows.Forms.ProgressBar();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.pnlCenter.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeft
@@ -54,11 +59,60 @@
             // pnlCenter
             // 
             this.pnlCenter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.pnlCenter.Controls.Add(this.btnStop);
+            this.pnlCenter.Controls.Add(this.btnStart);
+            this.pnlCenter.Controls.Add(this.pbProgress);
+            this.pnlCenter.Controls.Add(this.lblTimer);
             this.pnlCenter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlCenter.Location = new System.Drawing.Point(350, 0);
             this.pnlCenter.Name = "pnlCenter";
             this.pnlCenter.Size = new System.Drawing.Size(512, 673);
             this.pnlCenter.TabIndex = 2;
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.AutoSize = true;
+            this.lblTimer.Font = new System.Drawing.Font("나눔스퀘어 ExtraBold", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblTimer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(230)))), ((int)(((byte)(53)))));
+            this.lblTimer.Location = new System.Drawing.Point(63, 43);
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Size = new System.Drawing.Size(401, 133);
+            this.lblTimer.TabIndex = 0;
+            this.lblTimer.Text = "25:00";
+            this.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pbProgress
+            // 
+            this.pbProgress.Location = new System.Drawing.Point(64, 208);
+            this.pbProgress.Name = "pbProgress";
+            this.pbProgress.Size = new System.Drawing.Size(400, 25);
+            this.pbProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pbProgress.TabIndex = 1;
+            this.pbProgress.Value = 100;
+            // 
+            // btnStart
+            // 
+            this.btnStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStart.Font = new System.Drawing.Font("나눔스퀘어 Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStart.Location = new System.Drawing.Point(231, 254);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(108, 39);
+            this.btnStart.TabIndex = 2;
+            this.btnStart.Text = "몰입 시작";
+            this.btnStart.UseVisualStyleBackColor = false;
+            // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStop.Font = new System.Drawing.Font("나눔스퀘어 Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStop.Location = new System.Drawing.Point(356, 254);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(108, 39);
+            this.btnStop.TabIndex = 3;
+            this.btnStop.Text = "일시 정지";
+            this.btnStop.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -75,6 +129,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dev-Pomodoro Planner";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.pnlCenter.ResumeLayout(false);
+            this.pnlCenter.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -84,6 +140,10 @@
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Panel pnlCenter;
+        private System.Windows.Forms.Label lblTimer;
+        private System.Windows.Forms.ProgressBar pbProgress;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStart;
     }
 }
 
