@@ -110,6 +110,7 @@
             this.btnStart.TabIndex = 2;
             this.btnStart.Text = "몰입 시작";
             this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnStop
             // 
@@ -122,6 +123,7 @@
             this.btnStop.TabIndex = 3;
             this.btnStop.Text = "일시 정지";
             this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // rtbDevLog
             // 

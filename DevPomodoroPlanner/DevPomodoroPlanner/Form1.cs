@@ -64,5 +64,26 @@ namespace DevPomodoroPlanner
             // 최대값을 1500초(25분)로 가정했을 때의 예시
             pbProgress.Value = timeLeft;
         }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            // 테스트를 위해 25분(1500초)을 세팅합니다.
+            if (timeLeft <= 0)
+            {
+                timeLeft = 0;
+                pbProgress.Maximum = 1500;
+            }
+
+            tmrPomodoro.Start(); // 타이머 시작
+            btnStart.Enabled = false; // 타이머가 시작되면 몰입 시작 버튼 비활성화
+            btnStop.Enabled = true; // 일시 정지 버튼은 활성화
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            tmrPomodoro.Stop(); // 타이머 일시정지
+            btnStart.Enabled = true; // 일시 정지 버튼을 클릭하면 몰입 시작 버튼 활성화
+            btnStop.Enabled = false; // 일시 정지 버튼은 다시 비활성화
+        }
     }
 }
