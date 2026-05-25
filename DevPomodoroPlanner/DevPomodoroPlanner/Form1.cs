@@ -60,6 +60,25 @@ namespace DevPomodoroPlanner
                 // 화면 갱신 (시간 표시 및 ProgressBar)
                 UpdateTimerDisplay();
             }
+
+            else
+            {
+                // 시간이 다 됐을 때 (0초가 되었을 때) 타이머 멈춤
+                tmrPomodoro.Stop();
+
+                // 타이머가 끝나면 진행바와 시간 글자를 원래대로 리셋
+                timeLeft = 0;
+                lblTimer.Text = "25:00";
+                pbProgress.Value = 0;
+
+                // 버튼 상태 원래대로 복구
+                btnStart.Enabled = true;
+                btnStop.Enabled = false;
+
+                // 💡 사용자가 자연스럽게 우측의 일지를 쓰도록 유도하는 메세지창
+                MessageBox.Show("25분 간의 Pomodoro 몰입이 끝났습니다! 👏👏" +
+                                "\n\n우측 에디터에 오늘 집중한 내용이나 해결한 에러 로그를 작성하고 [저장] 버튼을 눌러주세요", "몰입 종료");
+            }
         }
 
         // 시간을 예쁘게 00:00 형태로 바꿔주는 도우미 메서드 (문자열 보간 사용)
@@ -96,6 +115,34 @@ namespace DevPomodoroPlanner
             tmrPomodoro.Stop(); // 타이머 일시정지
             btnStart.Enabled = true; // 일시 정지 버튼을 클릭하면 몰입 시작 버튼 활성화
             btnStop.Enabled = false; // 일시 정지 버튼은 다시 비활성화
+        }
+
+        private void btnSaveLog_Click(object sender, EventArgs e)
+        {
+            // 1. 예외 처리: 만약 사용자가 공백 상태로 저장을 눌렀을 때 출력 문구
+            if (string.IsNullOrWhiteSpace(rtbDevLog.Text))
+            {
+                MessageBox.Show("저장할 내용이 없습니다. 오늘 배운 내용이나 에러 로그를 기록해 주세요.", "안내");
+                return;
+            }
+
+            // 2. DB 매니저 객체 생성
+            DatabaseManager db = new DatabaseManager();
+
+            // 3. RichTextBox에 적힌 텍스트를 통째로 가져와 DB에 INSERT 요청
+            // (테스트 단계이므로 에러코드는 "NONE"으로 임시 지정)
+            bool isSuccess = db.InsertDevLog(rtbDevLog.Text, "NONE");
+
+            // 4. 결과에 따른 피드백
+            if (isSuccess)
+            {
+                MessageBox.Show("오늘의 몰입일지가 MariaDB에 안전하게 기록되었습니다! 🎉", "저장 성공");
+                rtbDevLog.Clear(); // 다음 저장을 위해 텍스트 상자 비우기
+            }
+            else
+            {
+                MessageBox.Show("DB 저장에 실패했습니다. 코드를 다시 확인해 보세요. 😭", "저장 실패");
+            }
         }
     }
 }
