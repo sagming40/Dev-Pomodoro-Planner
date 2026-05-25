@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlCenter = new System.Windows.Forms.Panel();
@@ -37,6 +38,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.rtbDevLog = new System.Windows.Forms.RichTextBox();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
+            this.tmrPomodoro = new System.Windows.Forms.Timer(this.components);
             this.pnlLeft.SuspendLayout();
             this.pnlRight.SuspendLayout();
             this.pnlCenter.SuspendLayout();
@@ -146,6 +148,11 @@
             this.dgvTasks.Size = new System.Drawing.Size(350, 450);
             this.dgvTasks.TabIndex = 0;
             // 
+            // tmrPomodoro
+            // 
+            this.tmrPomodoro.Interval = 1000;
+            this.tmrPomodoro.Tick += new System.EventHandler(this.tmrPomodoro_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -181,6 +188,7 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.RichTextBox rtbDevLog;
         private System.Windows.Forms.DataGridView dgvTasks;
+        private System.Windows.Forms.Timer tmrPomodoro;
     }
 }
 

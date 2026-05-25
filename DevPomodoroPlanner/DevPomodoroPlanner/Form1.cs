@@ -13,6 +13,10 @@ namespace DevPomodoroPlanner
 {
     public partial class Form1 : Form
     {
+        // 전역 변수: 프로그램 전체에서 공유되는 데이터들
+        private int timeLeft; // 남은 시간 (초 단위로 계산)
+        private Models.StudyTask currentTask; // 현재 진행 중인 공부 과제 객체
+
         public Form1()
         {
             InitializeComponent();
@@ -33,6 +37,32 @@ namespace DevPomodoroPlanner
             {
                 MessageBox.Show("DB 연결 실패... HeidiSQL이 켜져있는지, 혹은 Pwd를 확인하세요.", "실패 😭");
             }
+        }
+
+        private void tmrPomodoro_Tick(object sender, EventArgs e)
+        {
+            if (timeLeft > 0)
+            {
+                // 1초씩 깎음
+                timeLeft--;
+
+                // 화면 갱신 (시간 표시 및 ProgressBar)
+                UpdateTimerDisplay();
+            }
+        }
+
+        // 시간을 예쁘게 00:00 형태로 바꿔주는 도우미 메서드 (문자열 보간 사용)
+        private void UpdateTimerDisplay()
+        {
+            int minutes = timeLeft / 60;
+            int seconds = timeLeft % 60;
+
+            // lblTimer 텍스트 갱신 (예: 25:00)
+            lblTimer.Text = $"{minutes:D2}:{seconds:D2}";
+
+            // pbProgress 진행바 갱신 (남은 시간에 비례해서 줄어듦)
+            // 최대값을 1500초(25분)로 가정했을 때의 예시
+            pbProgress.Value = timeLeft;
         }
     }
 }
