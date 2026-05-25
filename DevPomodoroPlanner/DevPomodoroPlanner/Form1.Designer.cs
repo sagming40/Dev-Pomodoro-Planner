@@ -35,12 +35,18 @@
             this.pbProgress = new System.Windows.Forms.ProgressBar();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
+            this.rtbDevLog = new System.Windows.Forms.RichTextBox();
+            this.dgvTasks = new System.Windows.Forms.DataGridView();
+            this.pnlLeft.SuspendLayout();
+            this.pnlRight.SuspendLayout();
             this.pnlCenter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlLeft
             // 
             this.pnlLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.pnlLeft.Controls.Add(this.dgvTasks);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlLeft.Name = "pnlLeft";
@@ -50,6 +56,7 @@
             // pnlRight
             // 
             this.pnlRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.pnlRight.Controls.Add(this.rtbDevLog);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlRight.Location = new System.Drawing.Point(862, 0);
             this.pnlRight.Name = "pnlRight";
@@ -114,6 +121,31 @@
             this.btnStop.Text = "일시 정지";
             this.btnStop.UseVisualStyleBackColor = false;
             // 
+            // rtbDevLog
+            // 
+            this.rtbDevLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.rtbDevLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtbDevLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbDevLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(232)))), ((int)(((byte)(240)))));
+            this.rtbDevLog.Location = new System.Drawing.Point(0, 0);
+            this.rtbDevLog.Name = "rtbDevLog";
+            this.rtbDevLog.Size = new System.Drawing.Size(400, 673);
+            this.rtbDevLog.TabIndex = 0;
+            this.rtbDevLog.Text = "";
+            // 
+            // dgvTasks
+            // 
+            this.dgvTasks.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.dgvTasks.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvTasks.Location = new System.Drawing.Point(0, 0);
+            this.dgvTasks.Name = "dgvTasks";
+            this.dgvTasks.RowHeadersWidth = 51;
+            this.dgvTasks.RowTemplate.Height = 27;
+            this.dgvTasks.Size = new System.Drawing.Size(350, 450);
+            this.dgvTasks.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -129,8 +161,11 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dev-Pomodoro Planner";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.pnlLeft.ResumeLayout(false);
+            this.pnlRight.ResumeLayout(false);
             this.pnlCenter.ResumeLayout(false);
             this.pnlCenter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -144,6 +179,8 @@
         private System.Windows.Forms.ProgressBar pbProgress;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.RichTextBox rtbDevLog;
+        private System.Windows.Forms.DataGridView dgvTasks;
     }
 }
 
