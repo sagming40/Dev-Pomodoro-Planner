@@ -37,6 +37,17 @@ namespace DevPomodoroPlanner
             {
                 MessageBox.Show("DB 연결 실패... HeidiSQL이 켜져있는지, 혹은 Pwd를 확인하세요.", "실패 😭");
             }
+
+            // 1주 차에 만든 StudyTask 클래스 활용
+            currentTask = new Models.StudyTask()
+            {
+                Title = "객체지향 프로그래밍",
+                TargetMinutes = 25,
+                CreatedDate = DateTime.Now
+            };
+
+            // 폼 타이틀에 현재 진행중인 과목 띄우기 (문자열 보간)
+            this.Text = $"진행 중: {currentTask.Title}";
         }
 
         private void tmrPomodoro_Tick(object sender, EventArgs e)
@@ -70,8 +81,9 @@ namespace DevPomodoroPlanner
             // 테스트를 위해 25분(1500초)을 세팅합니다.
             if (timeLeft <= 0)
             {
-                timeLeft = 0;
+                timeLeft = 1500;
                 pbProgress.Maximum = 1500;
+                pbProgress.Value = 1500;
             }
 
             tmrPomodoro.Start(); // 타이머 시작
