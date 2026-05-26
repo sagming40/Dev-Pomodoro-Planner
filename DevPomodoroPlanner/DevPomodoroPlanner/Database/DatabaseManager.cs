@@ -134,5 +134,35 @@ namespace DevPomodoroPlanner.Database
                 return false;
             }
         }
+
+        // chart 시각화를 위해 과목명과 총 공부시간만 쏙 가져오는 메서드
+        public DataTable GetChartData()
+        {
+            string query = "SELECT subject_name, total_study_time" +
+                           "FROM subject_table;";
+
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DB Chart Error] 차트 데이터 로드 실패: {ex.Message}");
+            }
+
+            return dt;
+        }
     }
 }

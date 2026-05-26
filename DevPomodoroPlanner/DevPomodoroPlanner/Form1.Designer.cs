@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.pnlRight = new System.Windows.Forms.Panel();
@@ -40,15 +43,18 @@
             this.pbProgress = new System.Windows.Forms.ProgressBar();
             this.lblTimer = new System.Windows.Forms.Label();
             this.tmrPomodoro = new System.Windows.Forms.Timer(this.components);
+            this.chartStats = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             this.pnlRight.SuspendLayout();
             this.pnlCenter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartStats)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlLeft
             // 
             this.pnlLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.pnlLeft.Controls.Add(this.chartStats);
             this.pnlLeft.Controls.Add(this.dgvTasks);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
@@ -172,6 +178,23 @@
             this.tmrPomodoro.Interval = 1000;
             this.tmrPomodoro.Tick += new System.EventHandler(this.tmrPomodoro_Tick);
             // 
+            // chartStats
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartStats.ChartAreas.Add(chartArea1);
+            this.chartStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chartStats.Legends.Add(legend1);
+            this.chartStats.Location = new System.Drawing.Point(0, 450);
+            this.chartStats.Name = "chartStats";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartStats.Series.Add(series1);
+            this.chartStats.Size = new System.Drawing.Size(350, 223);
+            this.chartStats.TabIndex = 1;
+            this.chartStats.Text = "chart1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -192,6 +215,7 @@
             this.pnlRight.ResumeLayout(false);
             this.pnlCenter.ResumeLayout(false);
             this.pnlCenter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartStats)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -209,6 +233,7 @@
         private System.Windows.Forms.DataGridView dgvTasks;
         private System.Windows.Forms.Timer tmrPomodoro;
         private System.Windows.Forms.Button btnSaveLog;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartStats;
     }
 }
 

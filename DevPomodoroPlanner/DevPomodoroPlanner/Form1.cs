@@ -75,6 +75,9 @@ namespace DevPomodoroPlanner
             // 4. 기타 테두리 및 그리드 선 스타일
             dgvTasks.GridColor = Color.FromArgb(50, 50, 50); // 그물망 선도 어둡게
             dgvTasks.RowHeadersVisible = false; // 맨 왼쪽 여백 화살표 칸 제거 (깔끔함 극대화)
+
+            // Form1_Load 맨 밑에 추가
+            BindChartData();
         }
 
         private void tmrPomodoro_Tick(object sender, EventArgs e)
@@ -100,6 +103,7 @@ namespace DevPomodoroPlanner
                 if (updateResult)
                 {
                     Console.WriteLine($"[시스템] '{currentTask.Title}' 과목에 25분이 정상 누적되었습니다.");
+                    BindChartData(); // 💡 시간이 새로 누적되었으니 그래프도 실시간으로 새로고침 
                 }
 
                 // 타이머가 끝나면 진행바와 시간 글자를 원래대로 리셋
@@ -136,7 +140,7 @@ namespace DevPomodoroPlanner
             // 테스트를 위해 25분(1500초)을 세팅합니다.
             if (timeLeft <= 0)
             {
-                timeLeft = 1500;
+                timeLeft = 3 /* 1500 */;
                 pbProgress.Maximum = 1500;
                 pbProgress.Value = 1500;
             }
@@ -200,6 +204,77 @@ namespace DevPomodoroPlanner
                 MessageBox.Show($"['{currentTask.Title}'] 과목이 선택되었습니다. " +
                                 $"몰입 시작 버튼을 누르면 시간이 누적됩니다.", "과목 선택 완료");
             }
+        }
+
+        // 💡 Chart에 DB 바인딩 + 'Style: Dark Mode'
+        private void BindChartData()
+        {
+            DatabaseManager dbManager = new DatabaseManager();
+            DataTable chartData = dbManager.GetChartData();
+
+            // 1. 차트 초기화 및 데이터 연결
+            chartStats.Series.Clear(); // 기본 시리즈 삭제
+
+            /* chartStats.Series.Add("공부시간"); // 데이터 묶음 추가 '공부시간' */
+            // ⭐ 문자열 검색 오류 방지
+            // 생성과 동시에 'series' 변수에 "공부시간" 박제
+            var series = chartStats.Series.Add("공부시간");
+            // 확실하게 세로 막대그래프(Column) 타입으로 선언!
+            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+
+            /* 수정 전
+            // X축은 과목명, Y축은 total_study_time으로 매핑
+            chartStats.Series["공부시간"].XValueMember = "subject_name";
+            chartStats.Series["공부시간"].YValueMembers = "total_study_time";
+            chartStats.DataSource = chartData;
+            */
+
+            /* 수정_1
+            // 이름으로 찾는 과정을 건너뛰고 변수 직접 할당
+            series.XValueMember = "subject_name";
+            series.YValueMembers = "total_study_time";
+            chartStats.DataSource = chartData;
+            */
+
+            // 수정_2 [Winform Chart 버그 해결 구간]
+            // DataSource 대신 표(chartData)를 한 줄씩 돌면서 '막대그래프' 속성을 직접 삽입
+            foreach (DataRow row in chartData.Rows)
+            {
+                string subjectName = row["subject_name"].ToString();
+                int totalTime = Convert.ToInt32(row["total_study_time"]);
+
+                // 차트에 (과목명, 시간)으로 이루어진 막대기(Point)를 직접 추가!
+                series.Points.AddXY(subjectName, totalTime);
+            }
+
+            // 2. 🎨 차트 -> [ 다크모드 ] 코딩
+            chartStats.BackColor = Color.FromArgb(26, 26, 26); // 차트 전체 배경 (패널과 동일)
+            chartStats.ChartAreas[0].BackColor = Color.FromArgb(32, 32, 32); // 그래프 안쪽 배경
+
+            /*
+            // 3. 시그니처 색상 'Neon Green' -> 막대그래프에도 도입
+            chartStats.Series["공부시간"].Color = Color.FromArgb(163, 230, 53);
+            chartStats.Series["공부시간"].Font = new Font("맑은 고딕", 9, BorderStyle.None);
+            */
+
+            // 3-1.시그니처 색상 'Neon Green'->막대그래프에도 도입 (코드 수정)
+            series.Color = Color.FromArgb(163, 230, 53);
+            series.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
+
+            // 💡 [ !!HotFix!! ] 막대그래프 위에 실제 숫자가 글자로 뜨게 만드는 속성
+            series.IsValueShownAsLabel = true;
+            series.LabelForeColor = Color.White;
+
+            // 4. 글자색 및 격자선(Grid) 톤다운 -> 세련되게
+            chartStats.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White; // X축 글자색
+            chartStats.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White; // Y축 글자색
+            chartStats.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.FromArgb(50, 50, 50); // 세로 격자선
+            chartStats.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(50, 50, 50); // 가로 격자선
+
+            /* chartStats.DataBind(); // 최종 변경 승인 */
+
+            // 수동으로 주입했으므로 DataBind() 대신 Chart 화면 강제 새로고침(Refresh)
+            chartStats.Refresh();
         }
     }
 }
