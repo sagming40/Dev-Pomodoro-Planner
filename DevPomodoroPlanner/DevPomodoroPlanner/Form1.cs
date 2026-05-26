@@ -93,6 +93,15 @@ namespace DevPomodoroPlanner
                 // 시간이 다 됐을 때 (0초가 되었을 때) 타이머 멈춤
                 tmrPomodoro.Stop();
 
+                // 💡 [ 4주차 'U' 기능 결합 ] Timer 완료 시점에 DB에 25분 누적
+                DatabaseManager dbManager = new DatabaseManager();
+                bool updateResult = dbManager.UpdateSubjectTime(currentTask.Title, 25);
+
+                if (updateResult)
+                {
+                    Console.WriteLine($"[시스템] '{currentTask.Title}' 과목에 25분이 정상 누적되었습니다.");
+                }
+
                 // 타이머가 끝나면 진행바와 시간 글자를 원래대로 리셋
                 timeLeft = 0;
                 lblTimer.Text = "25:00";
@@ -169,6 +178,27 @@ namespace DevPomodoroPlanner
             else
             {
                 MessageBox.Show("DB 저장에 실패했습니다. 코드를 다시 확인해 보세요. 😭", "저장 실패");
+            }
+        }
+
+        private void dgvTasks_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 클릭한 줄의 인덱스가 정상적인 범위인지 체크 (헤더 클릭 방지 예외처리)
+            if (e.RowIndex >= 0)
+            {
+                // 선택한 행(Row)을 가져옵니다.
+                DataGridViewRow row = dgvTasks.Rows[e.RowIndex];
+
+                // 표 칸에 적혀있는 값을 가져와서 currentTask 객체에 주입합니다.
+                currentTask.Title = row.Cells["과목명"].Value.ToString();
+
+                // 💡 나중에 UPDATE 쿼리를 날릴 때 사용하기 위해 ID 값도 저장해둡니다.
+                // 임시로 currentTask 객체에 넘기거나 전역 변수에 ID를 보관합니다.
+                // 여기서는 대기 중인 과목 이름을 상단 타이틀바에 실시간 반영합니다.
+                this.Text = $"진행 중: {currentTask.Title}";
+
+                MessageBox.Show($"['{currentTask.Title}'] 과목이 선택되었습니다. " +
+                                $"몰입 시작 버튼을 누르면 시간이 누적됩니다.", "과목 선택 완료");
             }
         }
     }

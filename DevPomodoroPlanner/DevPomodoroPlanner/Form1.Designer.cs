@@ -32,6 +32,7 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.pnlRight = new System.Windows.Forms.Panel();
+            this.btnSaveLog = new System.Windows.Forms.Button();
             this.rtbDevLog = new System.Windows.Forms.RichTextBox();
             this.pnlCenter = new System.Windows.Forms.Panel();
             this.btnStop = new System.Windows.Forms.Button();
@@ -39,7 +40,6 @@
             this.pbProgress = new System.Windows.Forms.ProgressBar();
             this.lblTimer = new System.Windows.Forms.Label();
             this.tmrPomodoro = new System.Windows.Forms.Timer(this.components);
-            this.btnSaveLog = new System.Windows.Forms.Button();
             this.pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             this.pnlRight.SuspendLayout();
@@ -68,6 +68,7 @@
             this.dgvTasks.RowTemplate.Height = 27;
             this.dgvTasks.Size = new System.Drawing.Size(350, 450);
             this.dgvTasks.TabIndex = 0;
+            this.dgvTasks.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTasks_CellClick);
             // 
             // pnlRight
             // 
@@ -79,6 +80,20 @@
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Size = new System.Drawing.Size(400, 673);
             this.pnlRight.TabIndex = 1;
+            // 
+            // btnSaveLog
+            // 
+            this.btnSaveLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.btnSaveLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSaveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSaveLog.Location = new System.Drawing.Point(0, 550);
+            this.btnSaveLog.Name = "btnSaveLog";
+            this.btnSaveLog.Size = new System.Drawing.Size(400, 123);
+            this.btnSaveLog.TabIndex = 1;
+            this.btnSaveLog.Text = "몰입 일지 및 에러 로그 저장";
+            this.btnSaveLog.UseVisualStyleBackColor = false;
+            this.btnSaveLog.Click += new System.EventHandler(this.btnSaveLog_Click);
             // 
             // rtbDevLog
             // 
@@ -109,7 +124,7 @@
             // 
             this.btnStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStop.Font = new System.Drawing.Font("나눔스퀘어 Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnStop.Location = new System.Drawing.Point(356, 254);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(108, 39);
@@ -122,7 +137,7 @@
             // 
             this.btnStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Font = new System.Drawing.Font("나눔스퀘어 Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnStart.Location = new System.Drawing.Point(231, 254);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(108, 39);
@@ -143,11 +158,11 @@
             // lblTimer
             // 
             this.lblTimer.AutoSize = true;
-            this.lblTimer.Font = new System.Drawing.Font("나눔스퀘어 ExtraBold", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblTimer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(230)))), ((int)(((byte)(53)))));
             this.lblTimer.Location = new System.Drawing.Point(63, 43);
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(401, 133);
+            this.lblTimer.Size = new System.Drawing.Size(363, 135);
             this.lblTimer.TabIndex = 0;
             this.lblTimer.Text = "25:00";
             this.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -156,20 +171,6 @@
             // 
             this.tmrPomodoro.Interval = 1000;
             this.tmrPomodoro.Tick += new System.EventHandler(this.tmrPomodoro_Tick);
-            // 
-            // btnSaveLog
-            // 
-            this.btnSaveLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.btnSaveLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSaveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSaveLog.Font = new System.Drawing.Font("나눔스퀘어 Bold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSaveLog.Location = new System.Drawing.Point(0, 550);
-            this.btnSaveLog.Name = "btnSaveLog";
-            this.btnSaveLog.Size = new System.Drawing.Size(400, 123);
-            this.btnSaveLog.TabIndex = 1;
-            this.btnSaveLog.Text = "몰입 일지 및 에러 로그 저장";
-            this.btnSaveLog.UseVisualStyleBackColor = false;
-            this.btnSaveLog.Click += new System.EventHandler(this.btnSaveLog_Click);
             // 
             // Form1
             // 

@@ -74,7 +74,10 @@ namespace DevPomodoroPlanner.Database
         public DataTable GetSubjectList()
         {
             // SQL 쿼리문: AS 문법을 활용 한글 컬럼명으로 명시 -> 한국어 사용자를 위해
-            string query = "SELECT subject_id AS '번호', subject_name AS '과목명', category AS '분류' FROM subject_table;";
+            string query = "SELECT subject_id AS '번호', " +
+                               "subject_name AS '과목명', " +
+                               "category AS '분류' FROM subject_table;";
+
             DataTable dt = new DataTable();
 
             try
@@ -98,6 +101,38 @@ namespace DevPomodoroPlanner.Database
             }
 
             return dt; // 데이터를 호출한 곳으로 반환
+        }
+
+        // ⭐ 특정 과목을 몰입 시간을 기존 시간에 추가(누적)하는 메서드
+        public bool UpdateSubjectTime(string subjectName, int minuteToAdd)
+        {
+            // 💡 기존 학습 시간에 새 시간을 더해주는(UPDATE ... + @min) 핵심 SQL 쿼리
+            // 실제 설계에 따라 필드명은 유연하게 조절됩니다.
+            // 여기서는 기획안의 subject_table 구조를 기반으로 쿼리를 칩니다.
+            string query = "UPDATE subject_table " +
+                           "SET total_study_time = total_study_time + @minutes " +
+                           "WHERE subject_name = @name;";
+
+            try
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@minutes", minuteToAdd);
+                        cmd.Parameters.AddWithValue("@name", subjectName);
+
+                        cmd.ExecuteNonQuery(); // DB Data 갱신
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DB Update Error] 시간 누적 실패: {ex.Message}");
+                return false;
+            }
         }
     }
 }
