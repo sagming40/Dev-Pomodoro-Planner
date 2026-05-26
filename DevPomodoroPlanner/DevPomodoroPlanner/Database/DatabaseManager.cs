@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,6 +68,36 @@ namespace DevPomodoroPlanner.Database
                 Console.WriteLine($"[DB Insert Error] 로그 저장 실패: {ex.Message}");
                 return false;
             }
+        }
+
+        // DB 데이터를 가상 표(DataTable) 형태로 긁어오는 메서드
+        public DataTable GetSubjectList()
+        {
+            // SQL 쿼리문: AS 문법을 활용 한글 컬럼명으로 명시 -> 한국어 사용자를 위해
+            string query = "SELECT subject_id AS '번호', subject_name AS '과목명', category AS '분류' FROM subject_table;";
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        // DB에서 가져온 데이터를 C# 표에 채워주는 전용 메서드(Adapter)
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt); // adapter가 가져온 데이터를 dt에 채우기
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DB Select Error] 과목 로드 실패: {ex.Message}");
+            }
+
+            return dt; // 데이터를 호출한 곳으로 반환
         }
     }
 }

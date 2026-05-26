@@ -48,6 +48,33 @@ namespace DevPomodoroPlanner
 
             // 폼 타이틀에 현재 진행중인 과목 띄우기 (문자열 보간)
             this.Text = $"진행 중: {currentTask.Title}";
+
+            // [4주차 R 기능 추가]
+            // 1. DB에 과목 표 데이터 요청
+            DataTable subjectData = db.GetSubjectList();
+
+            // 2. 좌측 DataGridView의 데이터 원천(DataSource)에 연동
+            dgvTasks.DataSource = subjectData;
+
+            // [DataGridView 다크모드 스타일링
+            dgvTasks.EnableHeadersVisualStyles = false; // Windows 기본 Header Style 해제 (Custom 허용)
+
+            // 1. Header Style(제목칸 설정)
+            dgvTasks.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40); // 짙은 회색
+            dgvTasks.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // 흰색 글자
+            dgvTasks.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(40, 40, 40);
+
+            // 2. Cell Style(내용 스타일 설정)
+            dgvTasks.DefaultCellStyle.BackColor = Color.FromArgb(32, 32, 32); // 배경색(어둡게)
+            dgvTasks.DefaultCellStyle.ForeColor = Color.FromArgb(248, 250, 252); // 하얀 글씨(부드럽게)
+
+            // 3. 마우스로 셀로 선택했을 때(Neon Green -> 포인트 컬러)
+            dgvTasks.DefaultCellStyle.SelectionBackColor = Color.FromArgb(163, 230, 53); // 네온 그린 배경
+            dgvTasks.DefaultCellStyle.SelectionForeColor = Color.Black; // 선택된 글자는 검은색으로 선명하게
+
+            // 4. 기타 테두리 및 그리드 선 스타일
+            dgvTasks.GridColor = Color.FromArgb(50, 50, 50); // 그물망 선도 어둡게
+            dgvTasks.RowHeadersVisible = false; // 맨 왼쪽 여백 화살표 칸 제거 (깔끔함 극대화)
         }
 
         private void tmrPomodoro_Tick(object sender, EventArgs e)
