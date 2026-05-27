@@ -138,9 +138,7 @@ namespace DevPomodoroPlanner.Database
         // chart 시각화를 위해 과목명과 총 공부시간만 쏙 가져오는 메서드
         public DataTable GetChartData()
         {
-            string query = "SELECT subject_name, total_study_time" +
-                           "FROM subject_table;";
-
+            string query = "SELECT subject_name, total_study_time FROM subject_table;";
             DataTable dt = new DataTable();
 
             try
@@ -159,7 +157,10 @@ namespace DevPomodoroPlanner.Database
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DB Chart Error] 차트 데이터 로드 실패: {ex.Message}");
+                /* Console.WriteLine($"[DB Chart Error] 차트 데이터 로드 실패: {ex.Message}"); */
+                System.Windows.Forms.MessageBox.Show(
+                    $"[Chart DB Error]\n{ex.Message}\n\n과목 표는 절 나오는데 왜 Error가 날까요?", 
+                    "Back-end 배달 사고 발생");
             }
 
             return dt;

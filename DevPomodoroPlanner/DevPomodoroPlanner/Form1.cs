@@ -31,7 +31,7 @@ namespace DevPomodoroPlanner
             // 2. 연결 테스트 실행 후 결과 팝업창에 출력
             if (db.TestConnection())
             {
-                MessageBox.Show("DB 연결 성공. 1주차 개발 검증 완료", "Complete 🎉");
+                MessageBox.Show("DB 연결 성공", "Complete 🎉");
             }
             else
             {
@@ -209,72 +209,144 @@ namespace DevPomodoroPlanner
         // 💡 Chart에 DB 바인딩 + 'Style: Dark Mode'
         private void BindChartData()
         {
+            #region 막대그래프
+            //DatabaseManager dbManager = new DatabaseManager();
+            //DataTable chartData = dbManager.GetChartData();
+
+            //// 1. 차트 초기화 및 데이터 연결
+            //chartStats.Series.Clear(); // 기본 시리즈 삭제
+
+            ///* chartStats.Series.Add("공부시간"); // 데이터 묶음 추가 '공부시간' */
+            //// ⭐ 문자열 검색 오류 방지
+            //// 생성과 동시에 'series' 변수에 "공부시간" 박제
+            //var series = chartStats.Series.Add("공부시간");
+            //// 확실하게 세로 막대그래프(Column) 타입으로 선언!
+            //series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+
+            ///* 수정 전
+            //// X축은 과목명, Y축은 total_study_time으로 매핑
+            //chartStats.Series["공부시간"].XValueMember = "subject_name";
+            //chartStats.Series["공부시간"].YValueMembers = "total_study_time";
+            //chartStats.DataSource = chartData;
+            //*/
+
+            ///* 수정_1
+            //// 이름으로 찾는 과정을 건너뛰고 변수 직접 할당
+            //series.XValueMember = "subject_name";
+            //series.YValueMembers = "total_study_time";
+            //chartStats.DataSource = chartData;
+            //*/
+
+            //// ⭐ [!! HOT FIX !!] 지워졌던 도화지(ChartArea) 연결 고리를 명확하게 다시 묶어줍니다!
+            //if (chartStats.ChartAreas.Count > 0)
+            //{
+            //    series.ChartArea = chartStats.ChartAreas[0].Name;
+            //}
+
+            //// 수정_2 [Winform Chart 버그 해결 구간]
+            //// DataSource 대신 표(chartData)를 한 줄씩 돌면서 '막대그래프' 속성을 직접 삽입
+            //foreach (DataRow row in chartData.Rows)
+            //{
+            //    string subjectName = row["subject_name"].ToString();
+            //    int totalTime = Convert.ToInt32(row["total_study_time"]);
+
+            //    // 차트에 (과목명, 시간)으로 이루어진 막대기(Point)를 직접 추가!
+            //    series.Points.AddXY(subjectName, totalTime);
+            //}
+
+            //// 2. 🎨 차트 -> [ 다크모드 ] 코딩
+            //chartStats.BackColor = Color.FromArgb(26, 26, 26); // 차트 전체 배경 (패널과 동일)
+            //chartStats.ChartAreas[0].BackColor = Color.FromArgb(32, 32, 32); // 그래프 안쪽 배경
+
+            ///*
+            //// 3. 시그니처 색상 'Neon Green' -> 막대그래프에도 도입
+            //chartStats.Series["공부시간"].Color = Color.FromArgb(163, 230, 53);
+            //chartStats.Series["공부시간"].Font = new Font("맑은 고딕", 9, BorderStyle.None);
+            //*/
+
+            //// 3-1.시그니처 색상 'Neon Green'->막대그래프에도 도입 (코드 수정)
+            //series.Color = Color.FromArgb(163, 230, 53);
+            //series.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
+
+            //// 💡 [ !!HotFix!! ] 막대그래프 위에 실제 숫자가 글자로 뜨게 만드는 속성
+            //series.IsValueShownAsLabel = true;
+            //series.LabelForeColor = Color.White;
+
+            //// 4. 글자색 및 격자선(Grid) 톤다운 -> 세련되게
+            //chartStats.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White; // X축 글자색
+            //chartStats.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White; // Y축 글자색
+            //chartStats.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.FromArgb(50, 50, 50); // 세로 격자선
+            //chartStats.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(50, 50, 50); // 가로 격자선
+
+            ///* chartStats.DataBind(); // 최종 변경 승인 */ 
+            #endregion
+
+            //📊 [디버깅 모드] 백엔드 버그 추적용 코드
             DatabaseManager dbManager = new DatabaseManager();
             DataTable chartData = dbManager.GetChartData();
 
-            // 1. 차트 초기화 및 데이터 연결
-            chartStats.Series.Clear(); // 기본 시리즈 삭제
+            // 1. ChartArea + Series 완전 초기화
+            chartStats.Series.Clear();
+            chartStats.ChartAreas.Clear();
 
-            /* chartStats.Series.Add("공부시간"); // 데이터 묶음 추가 '공부시간' */
-            // ⭐ 문자열 검색 오류 방지
-            // 생성과 동시에 'series' 변수에 "공부시간" 박제
+            // 2. ChartArea 생성
+            var chartArea = chartStats.ChartAreas.Add("MainArea");
+            chartArea.BackColor = Color.FromArgb(32, 32, 32); // 그래프 안쪽 배경
+
+            // 3. '공부시간' Series 생성
             var series = chartStats.Series.Add("공부시간");
-            // 확실하게 세로 막대그래프(Column) 타입으로 선언!
-            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            series.ChartArea = "MainArea"; // 방금 만든 "공부시간"에 연결
+            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column; // 세로 막대
 
-            /* 수정 전
-            // X축은 과목명, Y축은 total_study_time으로 매핑
-            chartStats.Series["공부시간"].XValueMember = "subject_name";
-            chartStats.Series["공부시간"].YValueMembers = "total_study_time";
-            chartStats.DataSource = chartData;
-            */
+            #region 데이터 수동 입력 막대그래프
+            //// 3. DB를 거치지 않고 임의의 가짜 데이터 수동 삽입
+            //series.Points.AddXY("C# 수동테스트", 45);
+            //series.Points.AddXY("DB 수동테스트", 80);
+            //series.Points.AddXY("기말대비과목", 30); 
+            #endregion
 
-            /* 수정_1
-            // 이름으로 찾는 과정을 건너뛰고 변수 직접 할당
-            series.XValueMember = "subject_name";
-            series.YValueMembers = "total_study_time";
-            chartStats.DataSource = chartData;
-            */
-
-            // 수정_2 [Winform Chart 버그 해결 구간]
-            // DataSource 대신 표(chartData)를 한 줄씩 돌면서 '막대그래프' 속성을 직접 삽입
-            foreach (DataRow row in chartData.Rows)
+            // 🔍 [디버깅 모드] DB에서 데이터가 제대로 넘어왔는지 검사
+            if (chartData == null || chartData.Rows.Count == 0)
             {
-                string subjectName = row["subject_name"].ToString();
-                int totalTime = Convert.ToInt32(row["total_study_time"]);
+                // 🚨 상황 A: DB에서 가져온 행이 0개 이거나 Error가 났을 경우
+                series.Points.AddXY("⚠ DB 데이터 가져오기 실패 ⚠", 50);
+                series.Color = Color.Red; // '경고' -> 빨강 막대
+                Console.WriteLine("[디버그] subject_table에서 꺼내온 데이터가 아예 없습니다.");
+            }
+            else
+            {
+                // 🟢 상황 B: DB 데이터가 정상 존재 할 경우 (한 줄씩 꺼내서 꽂기)
+                foreach (DataRow row in chartData.Rows)
+                {
+                    string subjectName = row["subject_name"].ToString();
+                    int totalTime = Convert.ToInt32(row["total_study_time"]);
 
-                // 차트에 (과목명, 시간)으로 이루어진 막대기(Point)를 직접 추가!
-                series.Points.AddXY(subjectName, totalTime);
+                    // Visual Studio 하단 [출력(Output)] 창에 데이터가 진짜 찍히는지 확인용 로그
+                    Console.WriteLine($"[디버그] DB 로그 성공 -> 과목: {subjectName}, 시간: {totalTime}분");
+
+                    // Chart에 Data 추가
+                    series.Points.AddXY(subjectName, totalTime);
+                }
+
+                series.Color = Color.FromArgb(163, 230, 53); // '정상' -> 네온 그린 막대
             }
 
-            // 2. 🎨 차트 -> [ 다크모드 ] 코딩
-            chartStats.BackColor = Color.FromArgb(26, 26, 26); // 차트 전체 배경 (패널과 동일)
-            chartStats.ChartAreas[0].BackColor = Color.FromArgb(32, 32, 32); // 그래프 안쪽 배경
-
-            /*
-            // 3. 시그니처 색상 'Neon Green' -> 막대그래프에도 도입
-            chartStats.Series["공부시간"].Color = Color.FromArgb(163, 230, 53);
-            chartStats.Series["공부시간"].Font = new Font("맑은 고딕", 9, BorderStyle.None);
-            */
-
-            // 3-1.시그니처 색상 'Neon Green'->막대그래프에도 도입 (코드 수정)
-            series.Color = Color.FromArgb(163, 230, 53);
-            series.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
-
-            // 💡 [ !!HotFix!! ] 막대그래프 위에 실제 숫자가 글자로 뜨게 만드는 속성
-            series.IsValueShownAsLabel = true;
+            // 4. [ Chart ] 다크모드 + NEON GREEN 스타일링
+            chartStats.BackColor = Color.FromArgb(26, 26, 26); // 차트 전체 배경
+            // series.Color = Color.FromArgb(163, 230, 53); // Signature 'NEON GREEN'
+            series.IsValueShownAsLabel = true; // 막대 위 숫자 표시
             series.LabelForeColor = Color.White;
-
-            // 4. 글자색 및 격자선(Grid) 톤다운 -> 세련되게
-            chartStats.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White; // X축 글자색
-            chartStats.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White; // Y축 글자색
-            chartStats.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.FromArgb(50, 50, 50); // 세로 격자선
-            chartStats.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(50, 50, 50); // 가로 격자선
-
-            /* chartStats.DataBind(); // 최종 변경 승인 */
+            series.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
+            
+            // 축 및 격자선 스타일링
+            chartArea.AxisX.LabelStyle.ForeColor = Color.White;
+            chartArea.AxisY.LabelStyle.ForeColor = Color.White;
+            chartArea.AxisX.MajorGrid.LineColor = Color.FromArgb(50, 50, 50);
+            chartArea.AxisY.MajorGrid.LineColor = Color.FromArgb(50, 50, 50);
 
             // 수동으로 주입했으므로 DataBind() 대신 Chart 화면 강제 새로고침(Refresh)
             chartStats.Refresh();
+            chartStats.Update(); // 강제 렌더링
         }
     }
 }

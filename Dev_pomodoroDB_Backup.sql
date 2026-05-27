@@ -26,24 +26,20 @@ CREATE TABLE IF NOT EXISTS `dev_log_table` (
   `error_code` varchar(100) DEFAULT NULL,
   `created_datatime` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- 테이블 데이터 dev_pomodoro_db.dev_log_table:~1 rows (대략적) 내보내기
-INSERT INTO `dev_log_table` (`log_id`, `log_content`, `error_code`, `created_datatime`) VALUES
-	(1, '"3주 차 타이머 엔진 및 MariaDB INSERT 연동 완료! 완벽하게 작동함."', 'NONE', '2026-05-25 17:38:26');
+-- 내보낼 데이터가 선택되어 있지 않습니다.
 
 -- 테이블 dev_pomodoro_db.subject_table 구조 내보내기
 CREATE TABLE IF NOT EXISTS `subject_table` (
   `subject_id` int(11) NOT NULL AUTO_INCREMENT,
   `subject_name` varchar(50) NOT NULL,
   `category` varchar(50) DEFAULT NULL,
+  `total_study_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`subject_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- 테이블 데이터 dev_pomodoro_db.subject_table:~2 rows (대략적) 내보내기
-INSERT INTO `subject_table` (`subject_id`, `subject_name`, `category`) VALUES
-	(1, '객체지향 프로그래밍', 'C#'),
-	(2, '데이터베이스 실무', 'MariaDB (HeidiSQL)');
+-- 내보낼 데이터가 선택되어 있지 않습니다.
 
 -- 테이블 dev_pomodoro_db.todo_table 구조 내보내기
 CREATE TABLE IF NOT EXISTS `todo_table` (
@@ -58,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `todo_table` (
   CONSTRAINT `1` FOREIGN KEY (`subject_id`) REFERENCES `subject_table` (`subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- 테이블 데이터 dev_pomodoro_db.todo_table:~0 rows (대략적) 내보내기
+-- 내보낼 데이터가 선택되어 있지 않습니다.
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
